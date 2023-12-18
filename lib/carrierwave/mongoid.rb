@@ -90,12 +90,7 @@ module CarrierWave
         # had a different name.
         if Gem::Version.new(CarrierWave::VERSION) >= Gem::Version.new("1.0.beta")
           def remove_previously_stored_#{column}
-            before, after = @_previous_changes_for_#{column}
-            # Don't delete if the files had the same name
-            return if before.nil? && after.nil?
-            # Proceed to remove the file, use the original name instead of '_new_'
-            before = @_previous_uploader_value_for_#{column} || before
-            _mounter(:#{column}).remove_previous([before], [after])
+            _mounter(:#{column}).remove_previous
           end
         end
 
@@ -212,12 +207,7 @@ module CarrierWave
           end
 
           def remove_previously_stored_#{column}
-            before, after = @_previous_changes_for_#{column}
-            # Don't delete if the files had the same name
-            return if before.nil? && after.nil?
-            # Proceed to remove the file, use the original name instead of '_new_'
-            before = @_previous_uploader_value_for_#{column} || before
-            _mounter(:#{column}).remove_previous(Array.wrap(before), Array.wrap(after))
+            _mounter(:#{column}).remove_previous
           end
 
           def serializable_hash(options = nil)
